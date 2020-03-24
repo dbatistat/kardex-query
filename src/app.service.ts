@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
+import { ListQuery } from './queries/list.query';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  constructor(
+    private readonly queryBus: QueryBus) {
+  }
+
+  public async getAll() {
+    return await this.queryBus.execute(new ListQuery());
   }
 }

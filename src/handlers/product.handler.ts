@@ -1,15 +1,15 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ListQuery } from './list.query';
-import { Product } from './product.interface';
+import { ListQuery } from '../queries/list.query';
+import { Product } from '../interfaces/product.interface';
 
 @QueryHandler(ListQuery)
 export class ListHandler implements IQueryHandler<ListQuery> {
     constructor(@InjectModel('Product') private productModel: Model<Product>) {
     }
 
-    async execute(query: ListQuery): Promise<Product[]> {
-        return this.productModel.find({ query }).exec();
+    async execute(): Promise<Product[]> {
+        return this.productModel.find().exec();
     }
 }
